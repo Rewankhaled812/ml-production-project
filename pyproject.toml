@@ -1,0 +1,33 @@
+[project]
+name = "ml-production-project"
+version = "0.1.0"
+description = "Production ML Pipeline for Breast Cancer Wisconsin Classification"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "joblib>=1.6.0",
+    "matplotlib>=3.11.2",
+    "numpy>=2.5.4",
+    "pandas>=3.0.6",
+    "python-dotenv>=1.2.4",
+    "scikit-learn>=1.9.1",
+    "seaborn>=0.13.2",
+]
+
+[dependency-groups]
+dev = [
+    "black>=26.10.1",
+    "pre-commit>=4.7.0",
+    "ruff>=0.17.0",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP"]
+
+[tool.black]
+line-length = 88
+target-version = ['py312']
