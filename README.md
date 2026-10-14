@@ -86,7 +86,7 @@ Evaluated on a held-out, stratified test set of 114 samples (72 Benign, 42 Malig
 True Benign (0)            71 (TN)                 1 (FP)
 True Malignant (1)          3 (FN)                39 (TP)
 ```
-
+These results are based on a single train/test split and are intended for educational evaluation, not clinical diagnosis.
 ---
 
 ## 5. Folder Hierarchy & Responsibilities
@@ -108,7 +108,6 @@ ml-production-project/
 │   ├── model_service.py        # Joblib persistence, artifact loading, and inference
 │   └── main.py                 # High-level workflow orchestration
 ├── models/                     # Storage directory for saved pipeline artifacts
-│   ├── .gitkeep
 │   └── pipeline.joblib         # Serialized fitted pipeline artifact
 ├── run.py                      # CLI entry point for training and inference
 ├── .env.example                # Safe sample environment configuration
@@ -137,7 +136,7 @@ ml-production-project/
 
 ### Step 1: Clone the Repository
 ```bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
+git clone <[https://github.com/Rewankhaled812/ml-production-project]>
 cd ml-production-project
 ```
 
