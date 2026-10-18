@@ -136,7 +136,7 @@ ml-production-project/
 
 ### Step 1: Clone the Repository
 ```bash
-git clone <[https://github.com/Rewankhaled812/ml-production-project]>
+git clone https://github.com/Rewankhaled812/ml-production-project.git
 cd ml-production-project
 ```
 
