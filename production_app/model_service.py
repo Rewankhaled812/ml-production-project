@@ -99,6 +99,48 @@ def load_model(artifact_path: str | Path) -> Pipeline:
     return pipeline
 
 
+_cached_pipeline: Pipeline | None = None
+
+
+def get_model(
+    artifact_path: str | Path | None = None,
+    force_reload: bool = False,
+) -> Pipeline:
+    """Retrieve the cached Pipeline artifact, loading it if not already cached.
+
+    Ensures the model is loaded once and kept in memory across API requests,
+    preventing repeated disk I/O.
+
+    Args:
+        artifact_path: Optional path. If omitted, uses configured path.
+        force_reload: If True, forces re-reading artifact from disk.
+
+    Returns:
+        Loaded scikit-learn Pipeline ready for inference.
+
+    Raises:
+        FileNotFoundError: If the model artifact cannot be found.
+        ValueError: If the artifact is invalid or corrupt.
+    """
+    global _cached_pipeline
+    if _cached_pipeline is None or force_reload:
+        cfg = get_config()
+        target_path = Path(artifact_path) if artifact_path else cfg.resolve_model_path()
+        _cached_pipeline = load_model(target_path)
+    return _cached_pipeline
+
+
+def is_model_loaded() -> bool:
+    """Check whether the model pipeline is currently loaded in memory."""
+    return _cached_pipeline is not None
+
+
+def clear_model_cache() -> None:
+    """Clear cached pipeline from memory (useful for testing or reloading)."""
+    global _cached_pipeline
+    _cached_pipeline = None
+
+
 def prepare_inference_features(
     input_data: pd.DataFrame | np.ndarray | dict[str, Any] | list[Any],
     feature_names: list[str] | None = None,

@@ -5,6 +5,7 @@ description = "Production ML Pipeline for Breast Cancer Wisconsin Classification
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "fastapi>=0.115.0",
     "joblib>=1.6.0",
     "matplotlib>=3.11.2",
     "numpy>=2.5.4",
@@ -12,11 +13,12 @@ dependencies = [
     "python-dotenv>=1.2.4",
     "scikit-learn>=1.9.1",
     "seaborn>=0.13.2",
+    "uvicorn[standard]>=0.34.0",
 ]
 
 [dependency-groups]
 dev = [
-    "black>=26.10.1",
+    "black[jupyter]>=26.10.1",
     "pre-commit>=4.7.0",
     "ruff>=0.17.0",
 ]

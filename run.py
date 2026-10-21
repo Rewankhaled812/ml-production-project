@@ -1,8 +1,9 @@
-"""Application entry point for running ML training and prediction workflows.
+"""Application entry point for running ML training, inference, and API workflows.
 
 Usage:
     python run.py --mode train
     python run.py --mode predict
+    python run.py --mode api
     python run.py --help
 """
 
@@ -29,9 +30,12 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument(
         "--mode",
         type=str,
-        choices=["train", "predict"],
+        choices=["train", "predict", "api"],
         default="train",
-        help="Pipeline mode: 'train' to fit and save, 'predict' to run inference.",
+        help=(
+            "Pipeline mode: 'train' to fit and save, "
+            "'predict' to run CLI inference, 'api' to serve REST API."
+        ),
     )
 
     parser.add_argument(
@@ -54,6 +58,20 @@ def parse_arguments() -> argparse.Namespace:
         choices=["DEBUG", "INFO", "WARNING", "ERROR"],
         default=None,
         help="Optional override for logging level.",
+    )
+
+    parser.add_argument(
+        "--host",
+        type=str,
+        default=None,
+        help="Optional host for API mode (defaults to API_HOST env or 127.0.0.1).",
+    )
+
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=None,
+        help="Optional port number for API mode (defaults to API_PORT env or 8000).",
     )
 
     return parser.parse_args()
@@ -80,6 +98,13 @@ def main() -> int:
             train_workflow(config=config)
         elif args.mode == "predict":
             predict_workflow(config=config)
+        elif args.mode == "api":
+            import uvicorn
+
+            host = args.host or config.api_host
+            port = args.port or config.api_port
+            logger.info("Starting REST API on http://%s:%d...", host, port)
+            uvicorn.run("production_app.api:app", host=host, port=port, reload=False)
         return 0
 
     except FileNotFoundError as fnf_err:

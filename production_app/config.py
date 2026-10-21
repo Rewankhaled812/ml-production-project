@@ -107,6 +107,12 @@ class Config:
         default_factory=lambda: Path(os.getenv("MODEL_PATH", "models/pipeline.joblib"))
     )
 
+    # API server configuration
+    api_host: str = field(
+        default_factory=lambda: os.getenv("API_HOST", "127.0.0.1").strip()
+    )
+    api_port: int = field(default_factory=lambda: int(os.getenv("API_PORT", "8000")))
+
     # Schema configuration
     feature_names: list[str] = field(default_factory=lambda: list(FEATURE_NAMES))
     target_column: str = TARGET_COLUMN
